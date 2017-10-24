@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.travistressler.memories.R;
 import com.example.travistressler.memories.SelectedMemoryFragment.SelectedMemoryFragment;
+import com.example.travistressler.memories.Util.Database.ImageDatabase;
 import com.example.travistressler.memories.Util.Database.ImageEntity;
 import com.example.travistressler.memories.Util.ImageGridAdapter;
 
@@ -30,7 +30,7 @@ public class MemoryGridFragment extends Fragment implements MemoryGridView, Imag
     public RecyclerView recyclerView;
 
     private ImageGridAdapter adapter;
-
+    private ImageDatabase imageDatabase;
     private MemoryGridPresenter presenter;
 
     @Nullable
@@ -40,14 +40,15 @@ public class MemoryGridFragment extends Fragment implements MemoryGridView, Imag
         ButterKnife.bind(this, view);
         presenter = new MemoryGridPresenter();
         presenter.attachView(this);
-        presenter.giveContext(getContext());
+        imageDatabase = ImageDatabase.getDatabase(getContext());
+        presenter.loadImages(imageDatabase.imageDao().getallImages());
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        presenter.loadImages();
+        presenter.loadImages(imageDatabase.imageDao().getallImages());
     }
 
     public static MemoryGridFragment newInstance() {
