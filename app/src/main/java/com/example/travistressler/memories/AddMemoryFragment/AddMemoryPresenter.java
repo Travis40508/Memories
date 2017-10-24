@@ -60,6 +60,8 @@ public class AddMemoryPresenter {
         byte[] byteArray = stream.toByteArray();
         ImageEntity imageEntity = new ImageEntity(byteArray, memoryComment, new Date(), location);
         view.saveImage(imageEntity);
+        view.clearComment();
+        view.clearImage();
     }
 
 

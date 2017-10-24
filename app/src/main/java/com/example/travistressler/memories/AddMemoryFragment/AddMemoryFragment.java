@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.travistressler.memories.R;
 import com.example.travistressler.memories.Util.Database.ImageDatabase;
@@ -117,6 +118,17 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
     @Override
     public void saveImage(ImageEntity imageEntity) {
         database.imageDao().insertImage(imageEntity);
+        Toast.makeText(getContext(), "Memory saved!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void clearComment() {
+        memoryComment.setText("");
+    }
+
+    @Override
+    public void clearImage() {
+        imagePreview.setImageBitmap(null);
     }
 
 }

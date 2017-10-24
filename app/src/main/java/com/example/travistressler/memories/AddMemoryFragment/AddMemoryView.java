@@ -19,4 +19,8 @@ public interface AddMemoryView {
     void getImage(Uri selectedImageUri);
 
     void saveImage(ImageEntity imageEntity);
+
+    void clearComment();
+
+    void clearImage();
 }
