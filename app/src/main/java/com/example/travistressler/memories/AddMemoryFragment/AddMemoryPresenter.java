@@ -31,14 +31,8 @@ public class AddMemoryPresenter {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_LOCAL_IMAGES = 2;
     private Bitmap imageBitmap;
-    private ImageDatabase database;
-    private Context context;
     private Location location;
 
-
-    public AddMemoryPresenter() {
-
-    }
 
     public void attachView(AddMemoryView view) {
         this.view = view;
@@ -65,12 +59,9 @@ public class AddMemoryPresenter {
         imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         ImageEntity imageEntity = new ImageEntity(byteArray, memoryComment, new Date(), location);
-        database.imageDao().insertImage(imageEntity);
+        view.saveImage(imageEntity);
     }
 
-    public void giveContext(Context context) {
-        database = ImageDatabase.getDatabase(context);
-    }
 
     public void uploadPictureClicked() {
         view.launchLocalImages(REQUEST_LOCAL_IMAGES);

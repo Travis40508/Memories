@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.travistressler.memories.R;
+import com.example.travistressler.memories.Util.Database.ImageDatabase;
+import com.example.travistressler.memories.Util.Database.ImageEntity;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -30,6 +32,7 @@ import butterknife.OnClick;
 public class AddMemoryFragment extends Fragment implements AddMemoryView {
 
     private AddMemoryPresenter presenter;
+    private ImageDatabase database;
 
     @BindView(R.id.image_preview)
     public ImageView imagePreview;
@@ -66,7 +69,7 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
         ButterKnife.bind(this, view);
         presenter = new AddMemoryPresenter();
         presenter.attachView(this);
-        presenter.giveContext(getContext());
+        database = ImageDatabase.getDatabase(getContext());
         return view;
     }
 
@@ -109,6 +112,11 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
         Bitmap imageBitmap= BitmapFactory.decodeStream(image_stream );
         presenter.getImageBitmap(imageBitmap);
         displayImagePreview(imageBitmap);
+    }
+
+    @Override
+    public void saveImage(ImageEntity imageEntity) {
+        database.imageDao().insertImage(imageEntity);
     }
 
 }
