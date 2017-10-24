@@ -2,6 +2,8 @@ package com.example.travistressler.memories.AddMemoryFragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -13,6 +15,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.travistressler.memories.R;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,6 +96,19 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
         intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
         startActivityForResult(Intent.createChooser(intent,
                 "Complete action using"), requestLocalImages);
+    }
+
+    @Override
+    public void getImage(Uri selectedImageUri) {
+        InputStream image_stream = null;
+        try {
+            image_stream = getActivity().getContentResolver().openInputStream(selectedImageUri);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Bitmap imageBitmap= BitmapFactory.decodeStream(image_stream );
+        presenter.getImageBitmap(imageBitmap);
+        displayImagePreview(imageBitmap);
     }
 
 }

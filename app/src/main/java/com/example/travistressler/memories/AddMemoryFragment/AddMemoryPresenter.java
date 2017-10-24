@@ -3,6 +3,7 @@ package com.example.travistressler.memories.AddMemoryFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -13,6 +14,8 @@ import com.example.travistressler.memories.Util.Database.ImageDatabase;
 import com.example.travistressler.memories.Util.Database.ImageEntity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
@@ -45,7 +48,7 @@ public class AddMemoryPresenter {
         view.launchCamera(REQUEST_IMAGE_CAPTURE);
     }
 
-    public void retrieveImage(int requestCode, int resultCode, Intent data) {
+    public void retrieveImage(int requestCode, int resultCode, Intent data)  {
         if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
@@ -53,7 +56,7 @@ public class AddMemoryPresenter {
             view.displayImagePreview(imageBitmap);
         } else if (requestCode == REQUEST_LOCAL_IMAGES && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
-            Log.d("@@@", String.valueOf(selectedImageUri));
+            view.getImage(selectedImageUri);
         }
     }
 
@@ -71,5 +74,9 @@ public class AddMemoryPresenter {
 
     public void uploadPictureClicked() {
         view.launchLocalImages(REQUEST_LOCAL_IMAGES);
+    }
+
+    public void getImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
     }
 }
