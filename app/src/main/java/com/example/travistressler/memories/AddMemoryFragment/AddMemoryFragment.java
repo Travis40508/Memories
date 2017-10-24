@@ -2,13 +2,10 @@ package com.example.travistressler.memories.AddMemoryFragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +17,6 @@ import com.example.travistressler.memories.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by travistressler on 10/24/17.
@@ -40,6 +35,11 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
     @OnClick(R.id.button_take_picture)
     public void takePictureClicked(View view) {
         presenter.takePictureClicked();
+    }
+
+    @OnClick(R.id.button_upload_picture)
+    public void uploadtePictureClicked(View view) {
+        presenter.uploadPictureClicked();
     }
 
     @OnClick(R.id.button_save_picture)
@@ -81,6 +81,16 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
     @Override
     public void displayImagePreview(Bitmap imageBitmap) {
         imagePreview.setImageBitmap(imageBitmap);
+    }
+
+    @Override
+    public void launchLocalImages(int requestLocalImages) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        startActivityForResult(Intent.createChooser(intent,
+                "Complete action using"), requestLocalImages);
     }
 
 }

@@ -10,4 +10,6 @@ public interface AddMemoryView {
     void launchCamera(int requestImageCapture);
 
     void displayImagePreview(Bitmap imageBitmap);
+
+    void launchLocalImages(int requestLocalImages);
 }

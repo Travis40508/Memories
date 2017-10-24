@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -25,6 +26,7 @@ public class AddMemoryPresenter {
 
     private AddMemoryView view;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_LOCAL_IMAGES = 2;
     private Bitmap imageBitmap;
     private ImageDatabase database;
     private Context context;
@@ -49,6 +51,9 @@ public class AddMemoryPresenter {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             this.imageBitmap = imageBitmap;
             view.displayImagePreview(imageBitmap);
+        } else if (requestCode == REQUEST_LOCAL_IMAGES && resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+            Log.d("@@@", String.valueOf(selectedImageUri));
         }
     }
 
@@ -64,4 +69,7 @@ public class AddMemoryPresenter {
         database = ImageDatabase.getDatabase(context);
     }
 
+    public void uploadPictureClicked() {
+        view.launchLocalImages(REQUEST_LOCAL_IMAGES);
+    }
 }

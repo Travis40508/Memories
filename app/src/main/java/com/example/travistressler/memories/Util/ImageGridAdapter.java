@@ -78,7 +78,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
         public void bindMemories(ImageEntity imageEntity) {
             Bitmap image = BitmapFactory.decodeByteArray(imageEntity.getImage(), 0, imageEntity.getImage().length);
             memoryImage.setImageBitmap(image);
-            DateFormat dateFormat = new SimpleDateFormat("MM-dd-YYYY");
+            DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
             memoryDate.setText(dateFormat.format(imageEntity.getDate()));
         }
 
