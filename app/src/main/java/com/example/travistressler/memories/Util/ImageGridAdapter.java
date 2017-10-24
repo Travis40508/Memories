@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.example.travistressler.memories.R;
 import com.example.travistressler.memories.Util.Database.ImageEntity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -71,12 +73,8 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
             Bitmap image = BitmapFactory.decodeByteArray(imageEntity.getImage(), 0, imageEntity.getImage().length);
             memoryImage.setImageBitmap(image);
             memoryComment.setText(imageEntity.getImageComment());
-            memoryDate.setText(imageEntity.getDate().toString());
-            try {
-                memoryLocation.setText(imageEntity.getLocation().getLatitude() + " " + imageEntity.getLocation().getLongitude());
-            }catch (Exception e) {
-
-            }
+            DateFormat dateFormat = new SimpleDateFormat("MM-dd-YYYY");
+            memoryDate.setText(dateFormat.format(imageEntity.getDate()));
         }
     }
 }
