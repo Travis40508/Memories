@@ -5,4 +5,5 @@ package com.example.travistressler.memories.SelectedMemoryFragment;
  */
 
 public interface SelectedMemoryView {
+    void closeFragment();
 }

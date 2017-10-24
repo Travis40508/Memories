@@ -42,4 +42,12 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(MemoryGridFragment.newInstance());
     }
 
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().findFragmentById(R.id.fragment_holder) != null) {
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.fragment_holder)).commit();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.example.travistressler.memories.R;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by travistressler on 10/24/17.
@@ -18,6 +19,11 @@ import butterknife.ButterKnife;
 public class SelectedMemoryFragment extends Fragment implements SelectedMemoryView {
 
     private SelectedMemoryPresenter presenter;
+
+    @OnClick(R.id.button_close_fragment)
+    public void closeFragmentClicked(View view) {
+        presenter.closeClicked();
+    }
 
     @Nullable
     @Override
@@ -36,5 +42,11 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
         SelectedMemoryFragment fragment = new SelectedMemoryFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void closeFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder))
+                .commit();
     }
 }

@@ -10,4 +10,8 @@ public class SelectedMemoryPresenter {
     public void attachView(SelectedMemoryView view) {
         this.view = view;
     }
+
+    public void closeClicked() {
+        view.closeFragment();
+    }
 }
