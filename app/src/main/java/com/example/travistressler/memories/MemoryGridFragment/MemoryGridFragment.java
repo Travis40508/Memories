@@ -3,6 +3,7 @@ package com.example.travistressler.memories.MemoryGridFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -59,10 +60,10 @@ public class MemoryGridFragment extends Fragment implements MemoryGridView {
 
     @Override
     public void retrieveImages(List<ImageEntity> imageEntityList) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         adapter = new ImageGridAdapter(imageEntityList);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(gridLayoutManager);
         adapter.notifyDataSetChanged();
     }
 }

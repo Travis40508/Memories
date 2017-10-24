@@ -55,14 +55,10 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
         @BindView(R.id.item_image)
         public ImageView memoryImage;
 
-        @BindView(R.id.item_comment_text)
-        public TextView memoryComment;
 
         @BindView(R.id.item_date)
         public TextView memoryDate;
 
-        @BindView(R.id.item_location)
-        public TextView memoryLocation;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -72,7 +68,6 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
         public void bindMemories(ImageEntity imageEntity) {
             Bitmap image = BitmapFactory.decodeByteArray(imageEntity.getImage(), 0, imageEntity.getImage().length);
             memoryImage.setImageBitmap(image);
-            memoryComment.setText(imageEntity.getImageComment());
             DateFormat dateFormat = new SimpleDateFormat("MM-dd-YYYY");
             memoryDate.setText(dateFormat.format(imageEntity.getDate()));
         }
