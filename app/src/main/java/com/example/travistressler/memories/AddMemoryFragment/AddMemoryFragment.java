@@ -2,6 +2,8 @@ package com.example.travistressler.memories.AddMemoryFragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -80,4 +82,5 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
     public void displayImagePreview(Bitmap imageBitmap) {
         imagePreview.setImageBitmap(imageBitmap);
     }
+
 }

@@ -2,6 +2,7 @@ package com.example.travistressler.memories.Util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.example.travistressler.memories.R;
 import com.example.travistressler.memories.Util.Database.ImageEntity;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,6 +56,12 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
         @BindView(R.id.item_comment_text)
         public TextView memoryComment;
 
+        @BindView(R.id.item_date)
+        public TextView memoryDate;
+
+        @BindView(R.id.item_location)
+        public TextView memoryLocation;
+
         public ImageViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -63,6 +71,12 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
             Bitmap image = BitmapFactory.decodeByteArray(imageEntity.getImage(), 0, imageEntity.getImage().length);
             memoryImage.setImageBitmap(image);
             memoryComment.setText(imageEntity.getImageComment());
+            memoryDate.setText(imageEntity.getDate().toString());
+            try {
+                memoryLocation.setText(imageEntity.getLocation().getLatitude() + " " + imageEntity.getLocation().getLongitude());
+            }catch (Exception e) {
+
+            }
         }
     }
 }

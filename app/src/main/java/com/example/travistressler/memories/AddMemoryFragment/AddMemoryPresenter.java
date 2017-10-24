@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by travistressler on 10/24/17.
@@ -26,6 +28,8 @@ public class AddMemoryPresenter {
     private Bitmap imageBitmap;
     private ImageDatabase database;
     private Context context;
+    private Location location;
+
 
     public AddMemoryPresenter() {
 
@@ -52,11 +56,12 @@ public class AddMemoryPresenter {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
-        ImageEntity imageEntity = new ImageEntity(byteArray, memoryComment, new Date(), new Location("lol"));
+        ImageEntity imageEntity = new ImageEntity(byteArray, memoryComment, new Date(), location);
         database.imageDao().insertImage(imageEntity);
     }
 
     public void giveContext(Context context) {
         database = ImageDatabase.getDatabase(context);
     }
+
 }
