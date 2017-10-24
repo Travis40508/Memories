@@ -41,4 +41,5 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(MemoryMapFragment.newInstance());
         fragments.add(MemoryGridFragment.newInstance());
     }
+
 }

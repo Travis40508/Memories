@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.travistressler.memories.R;
+import com.example.travistressler.memories.SelectedMemoryFragment.SelectedMemoryFragment;
 import com.example.travistressler.memories.Util.Database.ImageEntity;
 import com.example.travistressler.memories.Util.ImageGridAdapter;
 
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
  * Created by travistressler on 10/24/17.
  */
 
-public class MemoryGridFragment extends Fragment implements MemoryGridView {
+public class MemoryGridFragment extends Fragment implements MemoryGridView, ImageGridAdapter.Callback {
 
     @BindView(R.id.recycler_view)
     public RecyclerView recyclerView;
@@ -61,9 +62,15 @@ public class MemoryGridFragment extends Fragment implements MemoryGridView {
     @Override
     public void retrieveImages(List<ImageEntity> imageEntityList) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        adapter = new ImageGridAdapter(imageEntityList);
+        adapter = new ImageGridAdapter(imageEntityList, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void cellClicked(ImageEntity imageEntity) {
+        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder, SelectedMemoryFragment.newInstance())
+                .commit();
     }
 }

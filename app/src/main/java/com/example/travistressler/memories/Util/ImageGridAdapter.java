@@ -3,13 +3,17 @@ package com.example.travistressler.memories.Util;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.travistressler.memories.MemoryGridFragment.MemoryGridFragment;
 import com.example.travistressler.memories.R;
 import com.example.travistressler.memories.Util.Database.ImageEntity;
 
@@ -27,10 +31,12 @@ import butterknife.ButterKnife;
 
 public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.ImageViewHolder> {
 
+    private final Callback callback;
     private List<ImageEntity> imageList;
 
-    public ImageGridAdapter(List<ImageEntity> imageList) {
+    public ImageGridAdapter(List<ImageEntity> imageList, Callback callback) {
         this.imageList = imageList;
+        this.callback = callback;
     }
 
     @Override
@@ -42,6 +48,7 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
     @Override
     public void onBindViewHolder(ImageGridAdapter.ImageViewHolder holder, int position) {
         holder.bindMemories(imageList.get(position));
+        holder.constraintLayout.setOnClickListener(holder.onClick(imageList.get(position)));
     }
 
     @Override
@@ -59,6 +66,9 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
         @BindView(R.id.item_date)
         public TextView memoryDate;
 
+        @BindView(R.id.item_layout)
+        public ConstraintLayout constraintLayout;
+
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -71,5 +81,18 @@ public class ImageGridAdapter extends RecyclerView.Adapter<ImageGridAdapter.Imag
             DateFormat dateFormat = new SimpleDateFormat("MM-dd-YYYY");
             memoryDate.setText(dateFormat.format(imageEntity.getDate()));
         }
+
+        public View.OnClickListener onClick(final ImageEntity imageEntity) {
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    callback.cellClicked(imageEntity);
+                }
+            };
+        }
+    }
+
+    public interface Callback {
+        void cellClicked(ImageEntity imageEntity);
     }
 }
