@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 public class SelectedMemoryPresenter {
 
     private SelectedMemoryView view;
+    private Bitmap bitmapImage;
 
     public void attachView(SelectedMemoryView view) {
         this.view = view;
@@ -21,10 +22,15 @@ public class SelectedMemoryPresenter {
 
     public void getImage(byte[] image) {
         Bitmap bitmapImage = BitmapFactory.decodeByteArray(image, 0, image.length);
+        this.bitmapImage = bitmapImage;
         view.showImage(bitmapImage);
     }
 
     public void getComment(String comment) {
         view.showComment(comment);
+    }
+
+    public void shareMemoryClicked() {
+        view.sendEmailWithMemory(bitmapImage);
     }
 }

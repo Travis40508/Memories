@@ -12,4 +12,6 @@ public interface SelectedMemoryView {
     void showImage(Bitmap bitmapImage);
 
     void showComment(String comment);
+
+    void sendEmailWithMemory(Bitmap bitmapImage);
 }

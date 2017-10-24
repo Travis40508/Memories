@@ -1,21 +1,33 @@
 package com.example.travistressler.memories.SelectedMemoryFragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.travistressler.memories.BuildConfig;
+import com.example.travistressler.memories.MainActivity;
 import com.example.travistressler.memories.R;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.provider.MediaStore.AUTHORITY;
 
 /**
  * Created by travistressler on 10/24/17.
@@ -31,6 +43,11 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
     @BindView(R.id.selected_image_comment)
     public TextView selectedImageComment;
 
+
+    @OnClick(R.id.button_share)
+    public void shareMemoryClicked(View view) {
+        presenter.shareMemoryClicked();
+    }
 
     @OnClick(R.id.button_close_fragment)
     public void closeFragmentClicked(View view) {
@@ -71,5 +88,29 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
     @Override
     public void showComment(String comment) {
         selectedImageComment.setText(comment);
+    }
+
+    @Override
+    public void sendEmailWithMemory(Bitmap bitmapImage) {
+        if (Build.VERSION.SDK_INT < 24) {
+            try {
+                File file = new File(getContext().getCacheDir(), "placeholder" + ".png");
+                FileOutputStream fOut = new FileOutputStream(file);
+                bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+                fOut.flush();
+                fOut.close();
+                file.setReadable(true, false);
+                final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+                intent.setType("image/png");
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(getContext(), "Not available on > SDK 24", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
