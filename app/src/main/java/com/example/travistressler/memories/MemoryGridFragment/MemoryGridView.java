@@ -1,5 +1,7 @@
 package com.example.travistressler.memories.MemoryGridFragment;
 
+import android.os.Bundle;
+
 import com.example.travistressler.memories.Util.Database.ImageEntity;
 
 import java.util.List;
@@ -10,4 +12,6 @@ import java.util.List;
 
 public interface MemoryGridView {
     void retrieveImages(List<ImageEntity> imageEntityList);
+
+    void showSelectedImage(Bundle bundle);
 }

@@ -51,9 +51,7 @@ public class MemoryGridFragment extends Fragment implements MemoryGridView, Imag
     }
 
     public static MemoryGridFragment newInstance() {
-
         Bundle args = new Bundle();
-
         MemoryGridFragment fragment = new MemoryGridFragment();
         fragment.setArguments(args);
         return fragment;
@@ -69,8 +67,15 @@ public class MemoryGridFragment extends Fragment implements MemoryGridView, Imag
     }
 
     @Override
-    public void cellClicked(ImageEntity imageEntity) {
-        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder, SelectedMemoryFragment.newInstance())
+    public void showSelectedImage(Bundle bundle) {
+        SelectedMemoryFragment selectedMemoryFragment = SelectedMemoryFragment.newInstance();
+        selectedMemoryFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder, selectedMemoryFragment)
                 .commit();
+    }
+
+    @Override
+    public void cellClicked(ImageEntity imageEntity) {
+        presenter.cellClicked(imageEntity);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.travistressler.memories.MemoryGridFragment;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.example.travistressler.memories.Util.Database.ImageDatabase;
 import com.example.travistressler.memories.Util.Database.ImageEntity;
@@ -27,5 +28,12 @@ public class MemoryGridPresenter {
 
     public void giveContext(Context context) {
         imageDatabase = ImageDatabase.getDatabase(context);
+    }
+
+    public void cellClicked(ImageEntity imageEntity) {
+        Bundle bundle = new Bundle();
+        bundle.putByteArray("IMAGE", imageEntity.getImage());
+        bundle.putString("COMMENT", imageEntity.getImageComment());
+        view.showSelectedImage(bundle);
     }
 }
