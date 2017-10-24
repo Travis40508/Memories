@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.travistressler.memories.R;
@@ -31,10 +32,19 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
     @BindView(R.id.image_preview)
     public ImageView imagePreview;
 
+    @BindView(R.id.input_memory_comment)
+    public EditText memoryComment;
+
     @OnClick(R.id.button_take_picture)
     public void takePictureClicked(View view) {
         presenter.takePictureClicked();
     }
+
+    @OnClick(R.id.button_save_picture)
+    public void savePictureClicked(View view) {
+        presenter.savePictureClicked(memoryComment.getText().toString());
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -49,6 +59,7 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
         ButterKnife.bind(this, view);
         presenter = new AddMemoryPresenter();
         presenter.attachView(this);
+        presenter.giveContext(getContext());
         return view;
     }
 
