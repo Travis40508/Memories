@@ -20,13 +20,15 @@ public class ImageEntity {
     private Date date;
     private double lat;
     private double lng;
+    private String imageTitle;
 
-    public ImageEntity(byte[] image, String imageComment, Date date, double lat, double lng) {
+    public ImageEntity(byte[] image, String imageComment, Date date, double lat, double lng, String imageTitle) {
         this.image = image;
         this.imageComment = imageComment;
         this.date = date;
         this.lat = lat;
         this.lng = lng;
+        this.imageTitle = imageTitle;
     }
 
     public int getId() {
@@ -83,5 +85,13 @@ public class ImageEntity {
 
     public void setLng(double lng) {
         this.lng = lng;
+    }
+
+    public String getImageTitle() {
+        return imageTitle;
+    }
+
+    public void setImageTitle(String imageTitle) {
+        this.imageTitle = imageTitle;
     }
 }

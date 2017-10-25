@@ -10,7 +10,7 @@ import android.content.Context;
  * Created by travistressler on 10/24/17.
  */
 
-@Database(version = 2, entities = ImageEntity.class)
+@Database(version = 3, entities = ImageEntity.class)
 @TypeConverters(Converters.class)
 public abstract class ImageDatabase extends RoomDatabase {
 

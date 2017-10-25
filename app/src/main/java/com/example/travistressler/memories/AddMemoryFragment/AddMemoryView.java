@@ -23,4 +23,8 @@ public interface AddMemoryView {
     void clearComment();
 
     void clearImage();
+
+    void showLocationInput();
+
+    void hideLocationInput();
 }

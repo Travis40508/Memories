@@ -55,8 +55,17 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView, androi
     @BindView(R.id.input_memory_comment)
     public EditText memoryComment;
 
+    @BindView(R.id.input_memory_title)
+    public EditText memoryTitle;
+
+    @BindView(R.id.input_memory_location)
+    public EditText memoryLocation;
+
     @OnClick(R.id.button_take_picture)
     public void takePictureClicked(View view) {
+        if(memoryLocation.getVisibility() == View.VISIBLE) {
+            memoryLocation.setVisibility(View.GONE);
+        }
         presenter.takePictureClicked();
     }
 
@@ -67,7 +76,13 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView, androi
 
     @OnClick(R.id.button_save_picture)
     public void savePictureClicked(View view) {
-        presenter.savePictureClicked(memoryComment.getText().toString(), location);
+        if(memoryTitle.getText().length() == 0 || memoryComment.length() == 0 || (memoryLocation.getVisibility() == View.VISIBLE && memoryLocation.length() == 0)) {
+            Toast.makeText(getContext(), "Please fill out all fields first!", Toast.LENGTH_SHORT).show();
+        } else if(memoryLocation.getVisibility() == View.VISIBLE) {
+          presenter.savePictureClickedWithUpload(memoryComment.getText().toString(), memoryTitle.getText().toString(), memoryLocation.getText().toString());
+        } else {
+            presenter.savePictureClicked(memoryComment.getText().toString(), memoryTitle.getText().toString(), location);
+        }
     }
 
 
@@ -174,6 +189,16 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView, androi
     @Override
     public void clearImage() {
         imagePreview.setImageBitmap(null);
+    }
+
+    @Override
+    public void showLocationInput() {
+        memoryLocation.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLocationInput() {
+        memoryLocation.setVisibility(View.GONE);
     }
 
     @Override

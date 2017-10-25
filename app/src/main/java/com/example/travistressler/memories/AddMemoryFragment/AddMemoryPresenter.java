@@ -1,25 +1,17 @@
 package com.example.travistressler.memories.AddMemoryFragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.example.travistressler.memories.Util.Database.ImageDatabase;
 import com.example.travistressler.memories.Util.Database.ImageEntity;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by travistressler on 10/24/17.
@@ -51,17 +43,19 @@ public class AddMemoryPresenter {
         } else if (requestCode == REQUEST_LOCAL_IMAGES && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
             view.getImage(selectedImageUri);
+            view.showLocationInput();
         }
     }
 
-    public void savePictureClicked(String memoryComment, Location location) {
+    public void savePictureClicked(String memoryComment, String memoryTitle, Location location) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
-        ImageEntity imageEntity = new ImageEntity(byteArray, memoryComment, new Date(), location.getLatitude(), location.getLongitude());
+        ImageEntity imageEntity = new ImageEntity(byteArray, memoryComment, new Date(), location.getLatitude(), location.getLongitude(), memoryTitle);
         view.saveImage(imageEntity);
         view.clearComment();
         view.clearImage();
+        view.hideLocationInput();
     }
 
 
@@ -71,5 +65,9 @@ public class AddMemoryPresenter {
 
     public void getImageBitmap(Bitmap imageBitmap) {
         this.imageBitmap = imageBitmap;
+    }
+
+    public void savePictureClickedWithUpload(String memoryComment, String memoryTitle, String memoryLocation) {
+
     }
 }
