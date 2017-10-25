@@ -55,9 +55,7 @@ public class MemoryMapFragment extends Fragment implements MemoryMapView {
     }
 
     public static MemoryMapFragment newInstance() {
-
         Bundle args = new Bundle();
-
         MemoryMapFragment fragment = new MemoryMapFragment();
         fragment.setArguments(args);
         return fragment;
@@ -65,9 +63,11 @@ public class MemoryMapFragment extends Fragment implements MemoryMapView {
 
     @Override
     public void onResume() {
+        presenter.onResume();
         mapView.onResume();
         super.onResume();
     }
+
 
     @Override
     public void onDestroy() {
@@ -117,12 +117,7 @@ public class MemoryMapFragment extends Fragment implements MemoryMapView {
                 }
             }
         });
-        presenter.retrieveLocations(database.imageDao().getallImages());
     }
 
-    @Override
-    public void addMarkerForLocation(double lat, double lng) {
-
-    }
 
 }

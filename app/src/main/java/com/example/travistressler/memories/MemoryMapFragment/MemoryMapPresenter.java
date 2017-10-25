@@ -13,16 +13,10 @@ public class MemoryMapPresenter {
 
     public void attachView(MemoryMapView view) {
         this.view = view;
-        if(view != null) {
-            view.loadMap();
-        }
     }
 
-    public void retrieveLocations(List<ImageEntity> imageEntities) {
-        for(ImageEntity image : imageEntities) {
-            if(image.getLat() != 0 && image.getLng() != 0) {
-                view.addMarkerForLocation(image.getLat(), image.getLng());
-            }
-        }
+
+    public void onResume() {
+        view.loadMap();
     }
 }

@@ -86,25 +86,9 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView, androi
         presenter.attachView(this);
         database = ImageDatabase.getDatabase(getContext());
         locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                1);
         return view;
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    onResume();
-                } else {
-                    Toast.makeText(getContext(), "No permission granted.", Toast.LENGTH_SHORT).show();
-                }
-        }
-
-    }
 
     public static AddMemoryFragment newInstance() {
         Bundle args = new Bundle();
@@ -118,6 +102,8 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView, androi
         Intent cameraintent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraintent, requestImageCapture);
     }
+
+
 
     @Override
     public void onResume() {

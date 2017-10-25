@@ -29,9 +29,9 @@ public class MemoryViewPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return AddMemoryFragment.newInstance();
             case 1:
-                return MemoryMapFragment.newInstance();
-            case 2:
                 return MemoryGridFragment.newInstance();
+            case 2:
+                return MemoryMapFragment.newInstance();
         }
         return null;
     }

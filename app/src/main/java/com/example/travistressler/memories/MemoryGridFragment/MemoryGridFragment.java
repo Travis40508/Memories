@@ -40,9 +40,22 @@ public class MemoryGridFragment extends Fragment implements MemoryGridView, Imag
         ButterKnife.bind(this, view);
         presenter = new MemoryGridPresenter();
         presenter.attachView(this);
-        imageDatabase = ImageDatabase.getDatabase(getContext());
         presenter.loadImages(imageDatabase.imageDao().getallImages());
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        imageDatabase = ImageDatabase.getDatabase(getContext());
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(getView() != null) {
+            presenter.loadImages(imageDatabase.imageDao().getallImages());
+        }
     }
 
     @Override
@@ -50,6 +63,7 @@ public class MemoryGridFragment extends Fragment implements MemoryGridView, Imag
         super.onResume();
         presenter.loadImages(imageDatabase.imageDao().getallImages());
     }
+
 
     public static MemoryGridFragment newInstance() {
         Bundle args = new Bundle();

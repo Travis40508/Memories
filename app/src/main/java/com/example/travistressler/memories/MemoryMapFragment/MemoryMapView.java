@@ -10,5 +10,4 @@ public interface MemoryMapView {
     void loadMap();
 
 
-    void addMarkerForLocation(double lat, double lng);
 }
