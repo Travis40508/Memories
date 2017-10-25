@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.travistressler.memories.R;
 import com.example.travistressler.memories.Util.Database.ImageDatabase;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -115,9 +117,15 @@ public class MemoryMapFragment extends Fragment implements MemoryMapView {
                         googleMapView.animateCamera(cameraUpdate);
                     }
                 }
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        Toast.makeText(getContext(), String.valueOf(marker.getPosition().latitude), Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                });
             }
         });
     }
-
 
 }
