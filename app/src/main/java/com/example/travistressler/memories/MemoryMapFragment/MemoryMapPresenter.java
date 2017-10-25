@@ -9,5 +9,8 @@ public class MemoryMapPresenter {
 
     public void attachView(MemoryMapView view) {
         this.view = view;
+        if(view != null) {
+            view.loadMap();
+        }
     }
 }

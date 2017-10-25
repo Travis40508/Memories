@@ -5,4 +5,5 @@ package com.example.travistressler.memories.MemoryMapFragment;
  */
 
 public interface MemoryMapView {
+    void loadMap();
 }
