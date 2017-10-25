@@ -27,6 +27,7 @@ public class MemoryGridPresenter {
         Bundle bundle = new Bundle();
         bundle.putByteArray("IMAGE", imageEntity.getImage());
         bundle.putString("COMMENT", imageEntity.getImageComment());
+        bundle.putString("TITLE", imageEntity.getImageTitle());
         view.showSelectedImage(bundle);
     }
 }

@@ -27,4 +27,6 @@ public interface AddMemoryView {
     void showLocationInput();
 
     void hideLocationInput();
+
+    void clearTitle();
 }

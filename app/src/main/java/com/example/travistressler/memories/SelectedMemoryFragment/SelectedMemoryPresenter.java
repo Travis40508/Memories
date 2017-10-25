@@ -33,4 +33,8 @@ public class SelectedMemoryPresenter {
     public void shareMemoryClicked() {
         view.sendEmailWithMemory(bitmapImage);
     }
+
+    public void getTitle(String title) {
+        view.showTitle(title);
+    }
 }

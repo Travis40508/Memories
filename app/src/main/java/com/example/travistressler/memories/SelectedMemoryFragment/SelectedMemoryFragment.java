@@ -43,6 +43,8 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
     @BindView(R.id.selected_image_comment)
     public TextView selectedImageComment;
 
+    @BindView(R.id.selected_image_title)
+    public TextView selectedImageTitle;
 
     @OnClick(R.id.button_share)
     public void shareMemoryClicked(View view) {
@@ -63,6 +65,7 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
         presenter.attachView(this);
         presenter.getImage(getArguments().getByteArray("IMAGE"));
         presenter.getComment(getArguments().getString("COMMENT"));
+        presenter.getTitle(getArguments().getString("TITLE"));
         return view;
     }
 
@@ -112,5 +115,10 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
             Toast.makeText(getContext(), "Not available on > SDK 24", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    public void showTitle(String title) {
+        selectedImageTitle.setText(title);
     }
 }

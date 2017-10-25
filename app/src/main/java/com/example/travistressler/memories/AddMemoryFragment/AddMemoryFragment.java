@@ -202,6 +202,11 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView, androi
     }
 
     @Override
+    public void clearTitle() {
+        memoryTitle.setText("");
+    }
+
+    @Override
     public void onLocationChanged(Location location) {
     }
 
