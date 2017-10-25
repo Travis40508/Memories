@@ -54,11 +54,11 @@ public class AddMemoryPresenter {
         }
     }
 
-    public void savePictureClicked(String memoryComment) {
+    public void savePictureClicked(String memoryComment, Location location) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
-        ImageEntity imageEntity = new ImageEntity(byteArray, memoryComment, new Date(), location);
+        ImageEntity imageEntity = new ImageEntity(byteArray, memoryComment, new Date(), location.getLatitude(), location.getLongitude());
         view.saveImage(imageEntity);
         view.clearComment();
         view.clearImage();

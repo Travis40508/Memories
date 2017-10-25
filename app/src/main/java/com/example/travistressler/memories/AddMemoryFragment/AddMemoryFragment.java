@@ -1,13 +1,22 @@
 package com.example.travistressler.memories.AddMemoryFragment;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +27,7 @@ import android.widget.Toast;
 import com.example.travistressler.memories.R;
 import com.example.travistressler.memories.Util.Database.ImageDatabase;
 import com.example.travistressler.memories.Util.Database.ImageEntity;
+import com.google.android.gms.location.LocationListener;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -30,10 +40,14 @@ import butterknife.OnClick;
  * Created by travistressler on 10/24/17.
  */
 
-public class AddMemoryFragment extends Fragment implements AddMemoryView {
+public class AddMemoryFragment extends Fragment implements AddMemoryView, android.location.LocationListener {
 
     private AddMemoryPresenter presenter;
     private ImageDatabase database;
+    private LocationManager locationManager;
+    private String provider;
+    private Location location;
+    Criteria criteria = new Criteria();
 
     @BindView(R.id.image_preview)
     public ImageView imagePreview;
@@ -53,7 +67,7 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
 
     @OnClick(R.id.button_save_picture)
     public void savePictureClicked(View view) {
-        presenter.savePictureClicked(memoryComment.getText().toString());
+        presenter.savePictureClicked(memoryComment.getText().toString(), location);
     }
 
 
@@ -71,7 +85,25 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
         presenter = new AddMemoryPresenter();
         presenter.attachView(this);
         database = ImageDatabase.getDatabase(getContext());
+        locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        ActivityCompat.requestPermissions(getActivity(),
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                1);
         return view;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    onResume();
+                } else {
+                    Toast.makeText(getContext(), "No permission granted.", Toast.LENGTH_SHORT).show();
+                }
+        }
+
     }
 
     public static AddMemoryFragment newInstance() {
@@ -85,6 +117,33 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
     public void launchCamera(int requestImageCapture) {
         Intent cameraintent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraintent, requestImageCapture);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        provider = locationManager.getBestProvider(criteria, false);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+        }
+        location = locationManager.getLastKnownLocation(provider);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(provider, 400, 1, this);
     }
 
     @Override
@@ -110,7 +169,7 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Bitmap imageBitmap= BitmapFactory.decodeStream(image_stream );
+        Bitmap imageBitmap = BitmapFactory.decodeStream(image_stream);
         presenter.getImageBitmap(imageBitmap);
         displayImagePreview(imageBitmap);
     }
@@ -131,4 +190,22 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView {
         imagePreview.setImageBitmap(null);
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
 }

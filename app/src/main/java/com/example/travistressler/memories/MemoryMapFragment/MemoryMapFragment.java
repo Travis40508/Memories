@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.travistressler.memories.R;
+import com.example.travistressler.memories.Util.Database.ImageDatabase;
+import com.example.travistressler.memories.Util.Database.ImageEntity;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,6 +23,9 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,16 +39,17 @@ public class MemoryMapFragment extends Fragment implements MemoryMapView {
     private MemoryMapPresenter presenter;
     @BindView(R.id.map_view)
     public MapView mapView;
-
+    private ImageDatabase database;
+    private GoogleMap googleMapView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_memory_map, container, false);
         ButterKnife.bind(this, view);
+        database = ImageDatabase.getDatabase(getContext());
         presenter = new MemoryMapPresenter();
         presenter.attachView(this);
-
         mapView.onCreate(savedInstanceState);
         return view;
     }
@@ -79,7 +86,8 @@ public class MemoryMapFragment extends Fragment implements MemoryMapView {
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
-                googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+                googleMapView = googleMap;
+                googleMapView.getUiSettings().setMyLocationButtonEnabled(true);
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -90,7 +98,7 @@ public class MemoryMapFragment extends Fragment implements MemoryMapView {
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
-                googleMap.setMyLocationEnabled(true);
+                googleMapView.setMyLocationEnabled(true);
 
                 try {
                     MapsInitializer.initialize(MemoryMapFragment.this.getActivity());
@@ -99,9 +107,22 @@ public class MemoryMapFragment extends Fragment implements MemoryMapView {
                 }
 
                 // Updates the location and zoom of the MapView
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 5);
-                googleMap.animateCamera(cameraUpdate);
+                List<ImageEntity> imageEntityList = database.imageDao().getallImages();
+                for(ImageEntity image : imageEntityList) {
+                    if(image.getLat() != 0) {
+                        googleMap.addMarker(new MarkerOptions().position(new LatLng(image.getLat(), image.getLng())));
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(image.getLat(), image.getLng()), 8);
+                        googleMapView.animateCamera(cameraUpdate);
+                    }
+                }
             }
         });
+        presenter.retrieveLocations(database.imageDao().getallImages());
     }
+
+    @Override
+    public void addMarkerForLocation(double lat, double lng) {
+
+    }
+
 }

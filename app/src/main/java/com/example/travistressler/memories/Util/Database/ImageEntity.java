@@ -2,7 +2,6 @@ package com.example.travistressler.memories.Util.Database;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.location.Location;
 
 import java.util.Date;
 
@@ -19,13 +18,15 @@ public class ImageEntity {
     private byte[] image;
     private String imageComment;
     private Date date;
-    private Location location;
+    private double lat;
+    private double lng;
 
-    public ImageEntity(byte[] image, String imageComment, Date date, Location location) {
+    public ImageEntity(byte[] image, String imageComment, Date date, double lat, double lng) {
         this.image = image;
         this.imageComment = imageComment;
         this.date = date;
-        this.location = location;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     public int getId() {
@@ -68,11 +69,19 @@ public class ImageEntity {
         this.date = date;
     }
 
-    public Location getLocation() {
-        return location;
+    public double getLat() {
+        return lat;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 }

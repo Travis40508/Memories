@@ -21,13 +21,4 @@ public class Converters {
         return date == null ? null : date.getTime();
     }
 
-    @TypeConverter
-    public static Location fromLocation(String value) {
-        return value == null ? null : new Location(value);
-    }
-
-    @TypeConverter
-    public static String locationToString(Location location) {
-        return location == null ? null : location.toString();
-    }
 }
