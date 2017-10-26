@@ -79,8 +79,13 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
 
     @Override
     public void closeFragment() {
-        getActivity().getSupportFragmentManager().beginTransaction().remove(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder))
-                .commit();
+        if(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder) != null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder))
+                    .commit();
+        } else if(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map) != null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map))
+                    .commit();
+        }
     }
 
     @Override

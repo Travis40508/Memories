@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.travistressler.memories.R;
+import com.example.travistressler.memories.SelectedMemoryFragment.SelectedMemoryFragment;
 import com.example.travistressler.memories.Util.Database.ImageDatabase;
 import com.example.travistressler.memories.Util.Database.ImageEntity;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -112,20 +113,30 @@ public class MemoryMapFragment extends Fragment implements MemoryMapView {
                 List<ImageEntity> imageEntityList = database.imageDao().getallImages();
                 for(ImageEntity image : imageEntityList) {
                     if(image.getLat() != 0) {
-                        googleMap.addMarker(new MarkerOptions().position(new LatLng(image.getLat(), image.getLng())));
+                        googleMap.addMarker(new MarkerOptions().position(new LatLng(image.getLat(), image.getLng())).title(image.getImageTitle()).snippet(image.getImageComment()));
+
                         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(image.getLat(), image.getLng()), 8);
                         googleMapView.animateCamera(cameraUpdate);
                     }
                 }
-                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+                googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        Toast.makeText(getContext(), String.valueOf(marker.getPosition().latitude), Toast.LENGTH_SHORT).show();
-                        return false;
+                    public void onInfoWindowClick(Marker marker) {
+                        List<ImageEntity> imageEntity = database.imageDao().getMatchingImage(marker.getTitle(), marker.getSnippet());
+                        presenter.markerInfoWindowClicked(imageEntity.get(0));
                     }
                 });
             }
         });
+    }
+
+    @Override
+    public void showSelectedImage(Bundle bundle) {
+        SelectedMemoryFragment selectedMemoryFragment = SelectedMemoryFragment.newInstance();
+        selectedMemoryFragment.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder_map, selectedMemoryFragment)
+                .commit();
     }
 
 }

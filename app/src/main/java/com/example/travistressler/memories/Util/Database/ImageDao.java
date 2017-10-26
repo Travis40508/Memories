@@ -21,6 +21,9 @@ public interface ImageDao {
     @Query("SELECT * FROM imageentity")
     List<ImageEntity> getallImages();
 
+    @Query("SELECT * FROM imageentity WHERE imageTitle LIKE :title AND imageComment LIKE :comment")
+    List<ImageEntity> getMatchingImage(String title, String comment);
+
     @Update
     void updateImage(ImageEntity imageEntity);
 

@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         if(getSupportFragmentManager().findFragmentById(R.id.fragment_holder) != null) {
             getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.fragment_holder)).commit();
+        } else if(getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map) != null) {
+            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map)).commit();
         } else {
             super.onBackPressed();
         }
