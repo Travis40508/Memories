@@ -75,7 +75,7 @@
        android:layout_height="wrap_content" />
 
    <EditText
-       android:inputType="date"
+       android:inputType="text"
        android:imeOptions="actionNext"
        android:visibility="gone"
        android:id="@+id/input_memory_date_month"
@@ -88,7 +88,7 @@
        android:layout_height="wrap_content" />
 
    <EditText
-       android:inputType="date"
+       android:inputType="text"
        android:imeOptions="actionNext"
        android:visibility="gone"
        android:id="@+id/input_memory_date_day"
@@ -101,7 +101,7 @@
        android:layout_height="wrap_content" />
 
    <EditText
-       android:inputType="date"
+       android:inputType="text"
        android:imeOptions="actionDone"
        android:visibility="gone"
        android:id="@+id/input_memory_date_year"
