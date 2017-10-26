@@ -60,12 +60,45 @@
    <EditText
        android:visibility="gone"
        android:id="@+id/input_memory_location"
-       app:layout_constraintBottom_toTopOf="@id/button_take_picture"
+       app:layout_constraintBottom_toTopOf="@id/input_memory_date_month"
        app:layout_constraintLeft_toLeftOf="parent"
        app:layout_constraintRight_toRightOf="parent"
        android:layout_margin="5dp"
        android:hint="Where did this Memory take place?"
        android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
+   <EditText
+       android:visibility="gone"
+       android:id="@+id/input_memory_date_month"
+       app:layout_constraintBottom_toTopOf="@id/button_take_picture"
+       app:layout_constraintLeft_toLeftOf="parent"
+       android:layout_margin="5dp"
+       android:hint="MM"
+       android:maxLength="2"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content" />
+
+   <EditText
+       android:visibility="gone"
+       android:id="@+id/input_memory_date_day"
+       app:layout_constraintBottom_toTopOf="@id/button_take_picture"
+       app:layout_constraintLeft_toRightOf="@id/input_memory_date_month"
+       android:layout_margin="5dp"
+       android:hint="dd"
+       android:maxLength="2"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content" />
+
+   <EditText
+       android:visibility="gone"
+       android:id="@+id/input_memory_date_year"
+       app:layout_constraintBottom_toTopOf="@id/button_take_picture"
+       app:layout_constraintLeft_toRightOf="@id/input_memory_date_day"
+       android:layout_margin="5dp"
+       android:hint="YYYY"
+       android:maxLength="4"
+       android:layout_width="wrap_content"
        android:layout_height="wrap_content" />
 
    <Button

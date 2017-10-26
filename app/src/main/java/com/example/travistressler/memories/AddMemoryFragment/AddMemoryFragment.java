@@ -61,6 +61,15 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView, androi
     @BindView(R.id.input_memory_location)
     public EditText memoryLocation;
 
+    @BindView(R.id.input_memory_date_month)
+    public EditText memoryDateMonth;
+
+    @BindView(R.id.input_memory_date_day)
+    public EditText memoryDateDay;
+
+    @BindView(R.id.input_memory_date_year)
+    public EditText memoryDateYear;
+
     @OnClick(R.id.button_take_picture)
     public void takePictureClicked(View view) {
         if(memoryLocation.getVisibility() == View.VISIBLE) {
@@ -76,10 +85,13 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView, androi
 
     @OnClick(R.id.button_save_picture)
     public void savePictureClicked(View view) {
-        if(memoryTitle.getText().length() == 0 || memoryComment.length() == 0 || (memoryLocation.getVisibility() == View.VISIBLE && memoryLocation.length() == 0)) {
+        if(memoryTitle.getText().length() == 0 || memoryComment.length() == 0 || (memoryLocation.getVisibility() == View.VISIBLE && memoryLocation.length() == 0)
+                || (memoryDateMonth.getVisibility() == View.VISIBLE && memoryDateMonth.length() == 0) || (memoryDateDay.getVisibility() == View.VISIBLE && memoryDateDay.length() == 0)
+                || (memoryDateYear.getVisibility() == View.VISIBLE && memoryDateYear.length() == 0)) {
             Toast.makeText(getContext(), "Please fill out all fields first!", Toast.LENGTH_SHORT).show();
         } else if(memoryLocation.getVisibility() == View.VISIBLE) {
-          presenter.savePictureClickedWithUpload(memoryComment.getText().toString(), memoryTitle.getText().toString(), memoryLocation.getText().toString());
+          presenter.savePictureClickedWithUpload(memoryComment.getText().toString(), memoryTitle.getText().toString(), memoryLocation.getText().toString(),
+                  memoryDateMonth.getText().toString(), memoryDateDay.getText().toString(), memoryDateYear.getText().toString());
         } else {
             presenter.savePictureClicked(memoryComment.getText().toString(), memoryTitle.getText().toString(), location);
         }
@@ -204,6 +216,20 @@ public class AddMemoryFragment extends Fragment implements AddMemoryView, androi
     @Override
     public void clearTitle() {
         memoryTitle.setText("");
+    }
+
+    @Override
+    public void hideDateInput() {
+        memoryDateYear.setVisibility(View.GONE);
+        memoryDateMonth.setVisibility(View.GONE);
+        memoryDateDay.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showDateInput() {
+        memoryDateYear.setVisibility(View.VISIBLE);
+        memoryDateMonth.setVisibility(View.VISIBLE);
+        memoryDateDay.setVisibility(View.VISIBLE);
     }
 
     @Override

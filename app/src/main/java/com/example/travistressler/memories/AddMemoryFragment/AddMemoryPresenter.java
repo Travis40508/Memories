@@ -5,13 +5,20 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.travistressler.memories.Util.Database.ImageEntity;
 import com.example.travistressler.memories.Util.GoogleApi.GoogleAddress;
 import com.example.travistressler.memories.Util.GoogleApi.GoogleGeoApi;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +70,7 @@ public class AddMemoryPresenter {
             Uri selectedImageUri = data.getData();
             view.getImage(selectedImageUri);
             view.showLocationInput();
+            view.showDateInput();
         }
     }
 
@@ -76,6 +84,7 @@ public class AddMemoryPresenter {
         view.clearImage();
         view.clearTitle();
         view.hideLocationInput();
+        view.hideDateInput();
     }
 
 
@@ -87,21 +96,36 @@ public class AddMemoryPresenter {
         this.imageBitmap = imageBitmap;
     }
 
-    public void savePictureClickedWithUpload(final String memoryComment, final String memoryTitle, String memoryLocation) {
+    public void savePictureClickedWithUpload(final String memoryComment, final String memoryTitle, String memoryLocation, final String month, final String day, final String year) {
         googleGeoApi.getAddress(memoryLocation, apiKey).enqueue(new Callback<GoogleAddress>() {
             @Override
             public void onResponse(Call<GoogleAddress> call, Response<GoogleAddress> response) {
                 if(response.isSuccessful()) {
+                    int yearInt = Integer.parseInt(year);
+                    int monthInt = Integer.parseInt(month);
+                    int dayInt = Integer.parseInt(day);
+                    Calendar calendar = new GregorianCalendar(yearInt, monthInt, dayInt);
+
+//                    String dateString = month + "-" + day + "-" + year;
+//                    DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+//                    Date pictureTakenDate = null;
+//                    try {
+//                        pictureTakenDate = dateFormat.parse(dateString);
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] byteArray = stream.toByteArray();
                     double latitude = response.body().getResults().get(0).getGeometry().getLocation().getLatitude();
                     double longitude = response.body().getResults().get(0).getGeometry().getLocation().getLongitude();
-                    ImageEntity imageEntity = new ImageEntity(byteArray, memoryComment, new Date(), latitude, longitude, memoryTitle);
+                    ImageEntity imageEntity = new ImageEntity(byteArray, memoryComment, calendar.getTime(), latitude, longitude, memoryTitle);
                     view.saveImage(imageEntity);
                     view.clearComment();
                     view.clearImage();
+                    view.clearTitle();
                     view.hideLocationInput();
+                    view.hideDateInput();
                 }
             }
 

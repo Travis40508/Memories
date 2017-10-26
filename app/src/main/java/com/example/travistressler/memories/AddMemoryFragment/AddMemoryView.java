@@ -29,4 +29,8 @@ public interface AddMemoryView {
     void hideLocationInput();
 
     void clearTitle();
+
+    void hideDateInput();
+
+    void showDateInput();
 }
