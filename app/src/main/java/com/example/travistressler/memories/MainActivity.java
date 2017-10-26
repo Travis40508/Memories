@@ -21,13 +21,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView {
 
     @BindView(R.id.view_pager_holder)
     public ViewPager viewPager;
 
-    private MemoryViewPagerAdapter viewPagerAdapter;
 
+    private MemoryViewPagerAdapter viewPagerAdapter;
+    private MainPresenter mainPresenter;
     private List<Fragment> fragments = new ArrayList<>();
 
     @Override
@@ -35,18 +36,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        checkForLocationPermisisons();
-        populateListOfFragments();
+        mainPresenter = new MainPresenter();
+        mainPresenter.attachView(this);
         viewPagerAdapter = new MemoryViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(1);
     }
 
-    private void checkForLocationPermisisons() {
+    @Override
+    public void checkForLocationPermissions() {
         ActivityCompat.requestPermissions(this,
                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                 1);
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -61,20 +64,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void populateListOfFragments() {
+    @Override
+    public void populateListOfFragments() {
         fragments.add(AddMemoryFragment.newInstance());
         fragments.add(MemoryGridFragment.newInstance());
         fragments.add(MemoryMapFragment.newInstance());
     }
 
     @Override
+    public void removeFragmentFromGrid() {
+        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.fragment_holder)).commit();
+    }
+
+    @Override
+    public void removeFragmentFromMap() {
+        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map)).commit();
+    }
+
+    @Override
+    public void superBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().findFragmentById(R.id.fragment_holder) != null) {
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.fragment_holder)).commit();
-        } else if(getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map) != null) {
-            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map)).commit();
-        } else {
-            super.onBackPressed();
-        }
+        mainPresenter.backPressed(getSupportFragmentManager().findFragmentById(R.id.fragment_holder) != null,
+                getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map) != null);
     }
 }

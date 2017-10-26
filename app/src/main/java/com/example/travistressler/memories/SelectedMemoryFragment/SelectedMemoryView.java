@@ -16,4 +16,6 @@ public interface SelectedMemoryView {
     void sendEmailWithMemory(Bitmap bitmapImage);
 
     void showTitle(String title);
+
+    void closeMapFragment();
 }

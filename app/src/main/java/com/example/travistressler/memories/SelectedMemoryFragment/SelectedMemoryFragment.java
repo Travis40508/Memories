@@ -53,7 +53,7 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
 
     @OnClick(R.id.button_close_fragment)
     public void closeFragmentClicked(View view) {
-        presenter.closeClicked();
+        presenter.closeClicked(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder) != null, getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map) != null);
     }
 
     @Nullable
@@ -79,13 +79,8 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
 
     @Override
     public void closeFragment() {
-        if(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder) != null) {
             getActivity().getSupportFragmentManager().beginTransaction().remove(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder))
                     .commit();
-        } else if(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map) != null) {
-            getActivity().getSupportFragmentManager().beginTransaction().remove(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map))
-                    .commit();
-        }
     }
 
     @Override
@@ -125,5 +120,11 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
     @Override
     public void showTitle(String title) {
         selectedImageTitle.setText(title);
+    }
+
+    @Override
+    public void closeMapFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_holder_map))
+                .commit();
     }
 }

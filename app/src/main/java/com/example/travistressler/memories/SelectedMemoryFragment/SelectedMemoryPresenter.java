@@ -16,8 +16,12 @@ public class SelectedMemoryPresenter {
         this.view = view;
     }
 
-    public void closeClicked() {
-        view.closeFragment();
+    public void closeClicked(boolean isGridVisible, boolean isMapVisible) {
+        if(isGridVisible) {
+            view.closeFragment();
+        } else if(isMapVisible) {
+            view.closeMapFragment();
+        }
     }
 
     public void getImage(byte[] image) {
