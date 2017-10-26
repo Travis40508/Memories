@@ -38,6 +38,8 @@
        android:layout_height="wrap_content" />
 
    <EditText
+       android:inputType="text"
+       android:imeOptions="actionNext"
        android:id="@+id/input_memory_title"
        app:layout_constraintBottom_toTopOf="@id/input_memory_comment"
        app:layout_constraintLeft_toLeftOf="parent"
@@ -48,6 +50,8 @@
        android:layout_height="wrap_content" />
 
    <EditText
+       android:inputType="text"
+       android:imeOptions="actionNext"
        android:id="@+id/input_memory_comment"
        app:layout_constraintBottom_toTopOf="@id/input_memory_location"
        app:layout_constraintLeft_toLeftOf="parent"
@@ -58,6 +62,8 @@
        android:layout_height="wrap_content" />
 
    <EditText
+       android:inputType="text"
+       android:imeOptions="actionNext"
        android:visibility="gone"
        android:id="@+id/input_memory_location"
        app:layout_constraintBottom_toTopOf="@id/input_memory_date_month"
@@ -69,6 +75,8 @@
        android:layout_height="wrap_content" />
 
    <EditText
+       android:inputType="date"
+       android:imeOptions="actionNext"
        android:visibility="gone"
        android:id="@+id/input_memory_date_month"
        app:layout_constraintBottom_toTopOf="@id/button_take_picture"
@@ -80,6 +88,8 @@
        android:layout_height="wrap_content" />
 
    <EditText
+       android:inputType="date"
+       android:imeOptions="actionNext"
        android:visibility="gone"
        android:id="@+id/input_memory_date_day"
        app:layout_constraintBottom_toTopOf="@id/button_take_picture"
@@ -91,6 +101,8 @@
        android:layout_height="wrap_content" />
 
    <EditText
+       android:inputType="date"
+       android:imeOptions="actionDone"
        android:visibility="gone"
        android:id="@+id/input_memory_date_year"
        app:layout_constraintBottom_toTopOf="@id/button_take_picture"
