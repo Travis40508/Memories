@@ -5,10 +5,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.travistressler.memories.BuildConfig;
-import com.example.travistressler.memories.MainActivity;
 import com.example.travistressler.memories.R;
 
 import java.io.File;
@@ -26,8 +22,6 @@ import java.io.FileOutputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.provider.MediaStore.AUTHORITY;
 
 /**
  * Created by travistressler on 10/24/17.
@@ -95,7 +89,7 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
 
     @Override
     public void sendEmailWithMemory(Bitmap bitmapImage) {
-        if (Build.VERSION.SDK_INT < 24) {
+        if (Build.VERSION.SDK_INT < 23) {
             try {
                 File file = new File(getContext().getCacheDir(), "placeholder" + ".png");
                 FileOutputStream fOut = new FileOutputStream(file);
@@ -112,7 +106,7 @@ public class SelectedMemoryFragment extends Fragment implements SelectedMemoryVi
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(getContext(), "Not available on > SDK 24", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Not available on this device", Toast.LENGTH_SHORT).show();
         }
 
     }

@@ -1,4 +1,4 @@
-package com.example.travistressler.memories;
+package com.example.travistressler.memories.MainView;
 
 /**
  * Created by travistressler on 10/25/17.

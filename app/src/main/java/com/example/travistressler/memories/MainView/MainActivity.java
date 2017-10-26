@@ -1,6 +1,5 @@
-package com.example.travistressler.memories;
+package com.example.travistressler.memories.MainView;
 
-import android.*;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -13,6 +12,7 @@ import android.widget.Toast;
 import com.example.travistressler.memories.AddMemoryFragment.AddMemoryFragment;
 import com.example.travistressler.memories.MemoryGridFragment.MemoryGridFragment;
 import com.example.travistressler.memories.MemoryMapFragment.MemoryMapFragment;
+import com.example.travistressler.memories.R;
 import com.example.travistressler.memories.Util.MemoryViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
-    @BindView(R.id.view_pager_holder)
+    @BindView(com.example.travistressler.memories.R.id.view_pager_holder)
     public ViewPager viewPager;
 
 
